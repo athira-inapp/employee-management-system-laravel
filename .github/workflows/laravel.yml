@@ -60,8 +60,5 @@ jobs:
     - name: Run database migrations
       run: php artisan migrate --force
 
-    - name: Install Laravel Passport
-      run: php artisan passport:install --force
-
     - name: Run Feature and Unit tests
       run: php artisan test
