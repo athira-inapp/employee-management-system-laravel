@@ -20,8 +20,8 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive', 'terminated'])->default('active');
             $table->unsignedBigInteger('department_id')->nullable();
             $table->string('profile_photo')->nullable();
-            
-            $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
+
+            // $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
         });
     }
 
@@ -33,8 +33,14 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['department_id']);
             $table->dropColumn([
-                'role', 'employee_id', 'phone', 'address', 
-                'hire_date', 'status', 'department_id', 'profile_photo'
+                'role',
+                'employee_id',
+                'phone',
+                'address',
+                'hire_date',
+                'status',
+                'department_id',
+                'profile_photo'
             ]);
         });
     }
