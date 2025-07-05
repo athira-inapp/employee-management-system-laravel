@@ -10,8 +10,12 @@
                 <div class="card login-card">
                     <div class="card-body p-5">
                         <!-- Company Logo -->
-                        <div class="company-logo">
-                            <i class="bi bi-building text-white" style="font-size: 2rem;"></i>
+                        <div class="logo-container">
+                            <div class="ems-logo">
+                                <div class="logo-text">
+                                    <span class="e-letter">E</span><span class="ms-letters">MS</span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Header -->
@@ -125,3 +129,43 @@
     </div>
 </div>
 @endsection
+@push('styles')
+<style>
+    .ems-logo {
+        background: #000000;
+        width: 140px;
+        height: 140px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        margin: 0 auto;
+        /* This centers the logo horizontally */
+    }
+
+    .logo-text {
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-shadow: none;
+    }
+
+    .logo-text .e-letter {
+        color: #ff0000;
+    }
+
+    .logo-text .ms-letters {
+        color: #ffffff;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin-bottom: 2rem;
+        /* Add some space below the logo */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+@endpush
