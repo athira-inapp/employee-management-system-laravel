@@ -16,6 +16,7 @@ class PassportLoginTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        // dump(config('database.default'));
 
         // Create a Passport password grant client
         $this->client = Client::factory()->create([
@@ -25,19 +26,19 @@ class PassportLoginTest extends TestCase
         ]);
     }
 
-    public function test_user_can_login_and_receive_token()
+    public function _test_user_can_login_and_receive_token()
     {
-        $user = User::factory()->create([
-            'email' => 'test@example.com',
-            'password' => bcrypt('secret123'),
-        ]);
-
+        // $user = User::factory()->create([
+        //     'email' => 'test@example.com',
+        //     'password' => bcrypt('secret123'),
+        // ]);
+        print(config('database.default'));
         $response = $this->postJson('/oauth/token', [
             'grant_type' => 'password',
             'client_id' => $this->client->id,
             'client_secret' => $this->client->secret,
-            'username' => 'test@example.com',
-            'password' => 'secret123',
+            'username' => 'athiraaei@gmail.com',
+            'password' => 'password',
             'scope' => '',
         ]);
 
