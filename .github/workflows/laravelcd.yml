@@ -1,0 +1,69 @@
+name: Laravel
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    uses: .github/workflows/laravel.yml@main
+    permissions:
+      contents: read
+
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Generate key
+      run: php artisan key:generate
+
+    - name: Set directory permissions
+      run: chmod -R 777 storage bootstrap/cache
+
+    - name: Create SQLite database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+
+    - name: Run Laravel tests
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan test
+
+  build:
+    needs: [integration]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: composer install --no-dev --optimize-autoloader
+
+    - name: Create Laravel Build Package
+      run: |
+        mkdir laravel-package
+        rsync -av --exclude=vendor --exclude=node_modules --exclude=.git ./ laravel-package
+        zip -r laravel-package.zip laravel-package
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: laravel-package
+        path: laravel-package.zip
