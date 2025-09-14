@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h2>Welcome, <span id="employeeName"></span>!</h2>
+
+  <script>
+    // Retrieve employee name from localStorage
+    // const data = 'l';//localStorage.getItem('employeeLogin');
+    // if (data) {
+    //  // document.getElementById('employeeName').textContent = data.user.name;
+    // } else {
+    //   // If not logged in, redirect to login
+    //   window.location.href = 'index.html';
+    // }
+
+    
+      async function identifySecretMessage(url="") {
+        debugger
+    if(url !== "") {
+      response = await fetch(url);
+      textValue = await response.text();
+      p = new DOMParser();
+      tableDoc = p.parseFromString(textValue, 'text/html');
+      doc = Array.from(tableDoc.querSelectorAll("table tr"));
+  
+      grid = new Map();
+      let maxX = 0;
+      let maxY = 0;
+  
+      for (let i = 1; i < doc.length; i += 3) {
+        let x = parseInt(doc[i].innerText.trim());
+        let char = doc[i+1].innnerText.trim();
+        let y = parseInt(doc[i+2].innerText.trim());
+  
+        if(isNaN(x) || isNaN(y) || !char) {
+          continue;
+        } 
+        grid.set(`${x}, ${y}`, char);
+        maxX = Math.max(maxX, x);
+        maxY = Math.max(maxY, y);
+        
+      }
+  
+      
+      for (let j = 0; j < maxY; j++) {
+        let row = '';
+        
+        for ( let k = 0; k < maxX; k++) {
+          row += grid.get(`${k}, ${j}`) || ' ';
+        }
+        
+        console.log(row);
+        
+      }
+      
+    } else {
+      console.log("Invalid url");
+    }
+  }
+  
+  //verify the code
+  identifySecretMessage("https://docs.google.com/document/d/e/2PACX-1vRPzbNQcx5UriHSbZ-9vmsTow_R6RRe7eyAU60xIF9Dlz-vaHiHNO2TKgDi7jy4ZpTpNqM7EvEcfr_p/pub");
+  
+   
+  </script>
+</body>
+</html>

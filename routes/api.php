@@ -21,6 +21,8 @@ Route::get('/test', function () {
     return response()->json(['message' => 'API is working!', 'timestamp' => now()]);
 });
 
+Route::get('/', [AuthController::class, 'login']);
+
 // Authentication routes
 Route::post('/login', [AuthController::class, 'login']);
 
