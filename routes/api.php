@@ -31,7 +31,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
+    // Route::get('/user', [AuthController::class, 'user']);
 
     // Employee CRUD routes
     Route::apiResource('employees', EmployeeController::class)->names([

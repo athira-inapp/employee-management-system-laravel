@@ -70,4 +70,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Department::class, 'manager_id');
     }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
 }

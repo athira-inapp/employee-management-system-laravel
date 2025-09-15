@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Employee;
 
 class AuthController extends Controller
 {
@@ -87,7 +88,7 @@ class AuthController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'role' => $user->role,
-                    'department' => $user->department,
+                    //'department' => $user->department,
                     'employee_id' => $user->employee_id,
                     'phone' => $user->phone,
                     'address' => $user->address,
