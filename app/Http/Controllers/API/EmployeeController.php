@@ -9,6 +9,9 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Mail\EmployeeCreated;
 
 class EmployeeController extends Controller
 {
@@ -132,6 +135,20 @@ class EmployeeController extends Controller
             $employee->load(['department', 'role', 'manager']);
 
             DB::commit();
+            try {
+                // Mail::to(env('ADMIN_EMAIL'))->send(new EmployeeCreated($employee));
+                Mail::to(env('ADMIN_EMAIL'))->queue(new EmployeeCreated($employee));
+                Log::info('Email queued for employee: ' . $employee->id);
+                // Can also send to multiple recipients
+                // Mail::to(env('ADMIN_EMAIL'))
+                //     ->cc('manager@company.com')
+                //     ->bcc('hr@company.com')
+                //     ->send(new EmployeeCreated($employee));
+
+            } catch (\Exception $e) {
+                Log::error('Failed to queue email: ' . $e->getMessage());
+                // Log::error('Email failed: ' . $e->getMessage());
+            }
 
             return response()->json([
                 'success' => true,
